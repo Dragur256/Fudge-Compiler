@@ -10,14 +10,14 @@ a nonsensical language that is extremely difficult to write in.
 Despite that, perhaps you would like to take the challenge. Brainf*ck is comprised of only eight single character commands,
 plus a data pointer which points to a single index of a 30,000 byte array. The commands are as follows:
 
-+   Increments the byte at the current data pointer by one
--   Decrements the byte at the current data pointer by one
->   Move the data pointer once to the right
-<   Move the data pointer once to the left
-.   Output the byte at the data pointer as an ASCII character
-,   Accept one byte of input, storing it at the location of the data pointer
-[   If the byte at the current pointer is zero, jump to after the matching "]"
-]   If the byte at the current pointer is not zero, jump back to the matching "["
+- "+"   Increments the byte at the current data pointer by one
+- "-"   Decrements the byte at the current data pointer by one
+- ">"   Move the data pointer once to the right
+- "<"   Move the data pointer once to the left
+- "."   Output the byte at the data pointer as an ASCII character
+- ","   Accept one byte of input, storing it at the location of the data pointer
+- "["   If the byte at the current pointer is zero, jump to after the matching "]"
+- "]"   If the byte at the current pointer is not zero, jump back to the matching "["
 
 And that's all there is! Any characters not a part of this set will be ignored, so you can easily leave comments,
 newlines, etc.
