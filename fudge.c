@@ -34,6 +34,7 @@ int main(int argc,char** argv){
     int buffer;
     long readIndex=0;
     int reelIndex=0;
+    int loopDepth=0;
 
     // BEGIN COMPILATION
 
@@ -64,8 +65,14 @@ int main(int argc,char** argv){
                 fprintf(fptrCompiled,"dec byte[reel+rsi]\n");
                 break;
             case '.':
-                fprintf(fptrCompiled,"mov rbp, rsp\nlea rcx, fmt\nmov rdx, [reel+rsi]\nadd rdx, 65\nxor eax, eax\nsub rsp, 32\ncall printf\nadd rsp, 32\nmov rsp, rbp\n");
+                fprintf(fptrCompiled,"mov rbp, rsp\nlea rcx, fmt\nmov rdx, [reel+rsi]\nxor eax, eax\nsub rsp, 32\ncall printf\nadd rsp, 32\nmov rsp, rbp\n");
                 break;
+            case '[':
+                fprintf(fptrCompiled,"loop%d:\nmov bl, [reel+rsi]\ncmp bl,0\njz endLoop%d\n",loopDepth,loopDepth);
+                loopDepth++;
+                break;
+            case ']':
+                fprintf(fptrCompiled,"mov bl, [reel+rsi]\ncmp bl,0\njnz loop%d\nendLoop%d:\n",loopDepth,loopDepth);
             default:
                 break;
         }
