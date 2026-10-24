@@ -69,10 +69,12 @@ int main(int argc,char** argv){
                 break;
             case '[':
                 fprintf(fptrCompiled,"loop%d:\nmov bl, [reel+rsi]\ncmp bl,0\njz endLoop%d\n",loopDepth,loopDepth);
-                loopDepth++;
+
                 break;
             case ']':
+                //loopDepth--;
                 fprintf(fptrCompiled,"mov bl, [reel+rsi]\ncmp bl,0\njnz loop%d\nendLoop%d:\n",loopDepth,loopDepth);
+                loopDepth++;
             default:
                 break;
         }
