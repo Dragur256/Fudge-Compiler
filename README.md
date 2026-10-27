@@ -1,4 +1,4 @@
-# bfCompiler
+# Fudge Compiler
 
 Fudge Compiler is a compiler for the esoteric language "Brainf*ck". It translates valid Brainf*ck code into
 NASM x86-64 assembly code.
@@ -23,7 +23,9 @@ And that's all there is! Any characters not a part of this set will be ignored, 
 newlines, etc.
 As of now, the compiler will theoretically accept any file extension, but I would suggest using a .txt file.
 
-Current version does not include the commands ", [ ]", still working on them.
+Current version does not include the commands ",", still working on them.
+
+**loops currently work, but loops within loops do not. I am working on a solution currently.**
 
 Run instructions (Windows Only):
 
