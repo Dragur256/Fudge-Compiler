@@ -60,21 +60,21 @@ int main(int argc,char** argv){
                     fileClose(fptrCompiled,fptrTarget);
                     return 1;
                 }
-                fprintf(fptrCompiled,"dec rsi\nmov bl, [reel+rsi]\n");
+                fprintf(fptrCompiled,"dec rsi\nlea bl, [reel+rsi]\n");
                 break;
             case '-':
                 fprintf(fptrCompiled,"dec byte[reel+rsi]\n");
                 break;
             case '.':
-                fprintf(fptrCompiled,"mov rbp, rsp\nlea rcx, fmt\nmov rdx, [reel+rsi]\nxor eax, eax\nsub rsp, 32\ncall printf\nadd rsp, 32\nmov rsp, rbp\n");
+                fprintf(fptrCompiled,"mov rbp, rsp\nlea rcx, fmt\nlea rdx, [reel+rsi]\nxor eax, eax\nsub rsp, 32\ncall printf\nadd rsp, 32\nmov rsp, rbp\n");
                 break;
             case '[':
-                fprintf(fptrCompiled,"loop%d_%d:\nmov bl, [reel+rsi]\ncmp bl,0\njz endLoop%d_%d\n",loopCount,loopDepth,loopCount,loopDepth);
+                fprintf(fptrCompiled,"loop%d_%d:\nlea bl, [reel+rsi]\ncmp bl,0\njz endLoop%d_%d\n",loopCount,loopDepth,loopCount,loopDepth);
                 loopDepth++;
                 break;
             case ']':
                 loopDepth--;
-                fprintf(fptrCompiled,"mov bl, [reel+rsi]\ncmp bl,0\njnz loop%d_%d\nendLoop%d_%d:\n",loopCount,loopDepth,loopCount,loopDepth);
+                fprintf(fptrCompiled,"lea bl, [reel+rsi]\ncmp bl,0\njnz loop%d_%d\nendLoop%d_%d:\n",loopCount,loopDepth,loopCount,loopDepth);
                 if(loopDepth<=0){
                     loopCount++;
                 }
