@@ -60,36 +60,21 @@ int main(int argc,char** argv){
                     fileClose(fptrCompiled,fptrTarget);
                     return 1;
                 }
-<<<<<<< Updated upstream
-                fprintf(fptrCompiled,"dec rsi\nlea bl, [reel+rsi]\n");
-=======
                 fprintf(fptrCompiled,"dec rsi\nmov bl, [r8+rsi]\n");
->>>>>>> Stashed changes
                 break;
             case '-':
                 fprintf(fptrCompiled,"dec byte[r8+rsi]\n");
                 break;
             case '.':
-<<<<<<< Updated upstream
-                fprintf(fptrCompiled,"mov rbp, rsp\nlea rcx, fmt\nlea rdx, [reel+rsi]\nxor eax, eax\nsub rsp, 32\ncall printf\nadd rsp, 32\nmov rsp, rbp\n");
-                break;
-            case '[':
-                fprintf(fptrCompiled,"loop%d_%d:\nlea bl, [reel+rsi]\ncmp bl,0\njz endLoop%d_%d\n",loopCount,loopDepth,loopCount,loopDepth);
-=======
                 fprintf(fptrCompiled,"mov rbp, rsp\nlea rcx, fmt\nmov rdx, [r8+rsi]\nxor eax, eax\npush r8\nsub rsp, 40\ncall printf\nadd rsp, 40\npop r8\nmov rsp, rbp\n");
                 break;
             case '[':
                 fprintf(fptrCompiled,"loop%d_%d:\nmov bl, [r8+rsi]\ncmp bl,0\njz endLoop%d_%d\n",loopCount,loopDepth,loopCount,loopDepth);
->>>>>>> Stashed changes
                 loopDepth++;
                 break;
             case ']':
                 loopDepth--;
-<<<<<<< Updated upstream
-                fprintf(fptrCompiled,"lea bl, [reel+rsi]\ncmp bl,0\njnz loop%d_%d\nendLoop%d_%d:\n",loopCount,loopDepth,loopCount,loopDepth);
-=======
                 fprintf(fptrCompiled,"mov bl, [r8+rsi]\ncmp bl,0\njnz loop%d_%d\nendLoop%d_%d:\n",loopCount,loopDepth,loopCount,loopDepth);
->>>>>>> Stashed changes
                 if(loopDepth<=0){
                     loopCount++;
                 }
