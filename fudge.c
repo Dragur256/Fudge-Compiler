@@ -29,7 +29,7 @@ int main(int argc,char** argv){
         return 1;
     }
     fprintf(fptrCompiled,"bits 64\ndefault rel\nglobal main:\nextern exit\nextern printf\n"); // Define main function and external functions
-    fprintf(fptrCompiled,"section .text\nmain:\nsub rsp, 40\nxor bl, bl\nxor rsi, rsi\nmov bl, [reel+rsi]\n"); // Begin main
+    fprintf(fptrCompiled,"section .text\nmain:\nsub rsp, 40\nxor bl, bl\nxor rsi, rsi\nlea r8, reel\nmov bl, [rdx+rsi]\n"); // Begin main
 
     int buffer;
     long readIndex=0;
@@ -42,7 +42,7 @@ int main(int argc,char** argv){
     while(buffer=fgetc(fptrTarget),buffer!=EOF){
         switch(buffer){
             case '+':
-                fprintf(fptrCompiled,"inc byte[reel+rsi]\n");
+                fprintf(fptrCompiled,"inc byte[r8+rsi]\n");
                 break;
             case '>':
                 reelIndex++;
@@ -51,7 +51,7 @@ int main(int argc,char** argv){
                     fileClose(fptrCompiled,fptrTarget);
                     return 1;
                 }
-                fprintf(fptrCompiled,"inc rsi\nmov bl, [reel+rsi]\n");
+                fprintf(fptrCompiled,"inc rsi\nmov bl, [r8+rsi]\n");
                 break;
             case '<':
                 reelIndex--;
@@ -60,21 +60,36 @@ int main(int argc,char** argv){
                     fileClose(fptrCompiled,fptrTarget);
                     return 1;
                 }
-                fprintf(fptrCompiled,"dec rsi\nmov bl, [reel+rsi]\n");
+<<<<<<< Updated upstream
+                fprintf(fptrCompiled,"dec rsi\nlea bl, [reel+rsi]\n");
+=======
+                fprintf(fptrCompiled,"dec rsi\nmov bl, [r8+rsi]\n");
+>>>>>>> Stashed changes
                 break;
             case '-':
-                fprintf(fptrCompiled,"dec byte[reel+rsi]\n");
+                fprintf(fptrCompiled,"dec byte[r8+rsi]\n");
                 break;
             case '.':
-                fprintf(fptrCompiled,"mov rbp, rsp\nlea rcx, fmt\nmov rdx, [reel+rsi]\nxor eax, eax\nsub rsp, 32\ncall printf\nadd rsp, 32\nmov rsp, rbp\n");
+<<<<<<< Updated upstream
+                fprintf(fptrCompiled,"mov rbp, rsp\nlea rcx, fmt\nlea rdx, [reel+rsi]\nxor eax, eax\nsub rsp, 32\ncall printf\nadd rsp, 32\nmov rsp, rbp\n");
                 break;
             case '[':
-                fprintf(fptrCompiled,"loop%d_%d:\nmov bl, [reel+rsi]\ncmp bl,0\njz endLoop%d_%d\n",loopCount,loopDepth,loopCount,loopDepth);
+                fprintf(fptrCompiled,"loop%d_%d:\nlea bl, [reel+rsi]\ncmp bl,0\njz endLoop%d_%d\n",loopCount,loopDepth,loopCount,loopDepth);
+=======
+                fprintf(fptrCompiled,"mov rbp, rsp\nlea rcx, fmt\nmov rdx, [r8+rsi]\nxor eax, eax\npush r8\nsub rsp, 40\ncall printf\nadd rsp, 40\npop r8\nmov rsp, rbp\n");
+                break;
+            case '[':
+                fprintf(fptrCompiled,"loop%d_%d:\nmov bl, [r8+rsi]\ncmp bl,0\njz endLoop%d_%d\n",loopCount,loopDepth,loopCount,loopDepth);
+>>>>>>> Stashed changes
                 loopDepth++;
                 break;
             case ']':
                 loopDepth--;
-                fprintf(fptrCompiled,"mov bl, [reel+rsi]\ncmp bl,0\njnz loop%d_%d\nendLoop%d_%d:\n",loopCount,loopDepth,loopCount,loopDepth);
+<<<<<<< Updated upstream
+                fprintf(fptrCompiled,"lea bl, [reel+rsi]\ncmp bl,0\njnz loop%d_%d\nendLoop%d_%d:\n",loopCount,loopDepth,loopCount,loopDepth);
+=======
+                fprintf(fptrCompiled,"mov bl, [r8+rsi]\ncmp bl,0\njnz loop%d_%d\nendLoop%d_%d:\n",loopCount,loopDepth,loopCount,loopDepth);
+>>>>>>> Stashed changes
                 if(loopDepth<=0){
                     loopCount++;
                 }
