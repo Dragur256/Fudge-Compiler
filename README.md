@@ -28,9 +28,6 @@ If you don't want to write your own just yet, try this example program and see w
 +.------------.>++++++[<+++++++++>-]<+.<.+++.------.--------.>>>++++[<++++++++>-
 ]<+.`
 
-Current version does not include the commands ",", still working on them.
-
-
 # Run instructions
 
 You will need:
