@@ -23,11 +23,10 @@ And that's all there is! Any characters not a part of this set will be ignored, 
 newlines, etc.
 
 If you don't want to write your own just yet, try this example program and see what it says!
+
 `>++++++++[<+++++++++>-]<.>++++[<+++++++>-]<+.+++++++..+++.>>++++++[<+++++++>-]<+
 +.------------.>++++++[<+++++++++>-]<+.<.+++.------.--------.>>>++++[<++++++++>-
 ]<+.`
-
-As of now, the compiler will theoretically accept any file extension, but I would suggest using a .txt file.
 
 Current version does not include the commands ",", still working on them.
 
@@ -44,8 +43,11 @@ Add both to your system enviornment variables before proceeding.
 - Run: .\fudge.exe (File to compile)
 - After completion, Fudge will have generated an assembly file (In this example, helloWorld.asm).
 - Then:
+  
   `nasm -f win64 helloWorld.asm -o helloWorld.obj`
+  
   `gcc helloWorld.obj -o helloWorld.exe`
+  
   `.\helloWorld.exe`
 
 
