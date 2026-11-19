@@ -28,8 +28,8 @@ int main(int argc,char** argv){
         printf("\nAssembly file could not be created!\n\n");
         return 1;
     }
-    fprintf(fptrCompiled,"bits 64\ndefault rel\nglobal main:\nextern exit\nextern printf\n"); // Define main function and external functions
-    fprintf(fptrCompiled,"section .text\nmain:\nsub rsp, 40\nxor bl, bl\nxor rsi, rsi\nlea r8, reel\nmov bl, [rdx+rsi]\n"); // Begin main
+    fprintf(fptrCompiled,"bits 64\ndefault rel\nglobal main:\nextern exit\nextern printf\nextern getchar\n"); // Define main function and external functions
+    fprintf(fptrCompiled,"section .text\nmain:\nsub rsp, 40\nxor bl, bl\nxor rsi, rsi\nlea r8, reel\nmov bl, [r8+rsi]\n"); // Begin main
 
     int buffer;
     long readIndex=0;
@@ -47,7 +47,7 @@ int main(int argc,char** argv){
             case '>':
                 reelIndex++;
                 if(reelIndex>29999){
-                    printf("SYNTAX ERROR at character %c at index %lu: Reel pointer out of bounds (0-29999",buffer,readIndex);
+                    printf("SYNTAX ERROR at character %c at index %lu: Reel pointer out of bounds (0-29999)",buffer,readIndex);
                     fileClose(fptrCompiled,fptrTarget);
                     return 1;
                 }
@@ -56,7 +56,7 @@ int main(int argc,char** argv){
             case '<':
                 reelIndex--;
                 if(reelIndex<0){
-                    printf("SYNTAX ERROR at character %c at index %lu: Reel pointer out of bounds (0-29999",buffer,readIndex);
+                    printf("SYNTAX ERROR at character %c at index %lu: Reel pointer out of bounds (0-29999)",buffer,readIndex);
                     fileClose(fptrCompiled,fptrTarget);
                     return 1;
                 }
@@ -93,6 +93,10 @@ int main(int argc,char** argv){
                 if(loopDepth<=0){
                     loopCount++;
                 }
+                break;
+            case ',':
+                fprintf(fptrCompiled,"push r8\nsub rsp, 40\ncall getchar\nadd rsp, 40\npop r8\nmov byte[r8+rsi], al\n");
+                break;
             default:
                 break;
         }
